@@ -1,0 +1,6 @@
+# Micro Framework Python pour créer notre REST API.
+Flask
+# ORM pour gérer la base de données.
+Flask-SQLAlchemy
+# Pour faire des migrations.
+Flask-Migrate
