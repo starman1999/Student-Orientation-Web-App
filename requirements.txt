@@ -1,6 +1,9 @@
 # Micro Framework Python pour créer notre REST API.
 Flask
 # ORM pour gérer la base de données.
-Flask-SQLAlchemy
+Flask-SQLAlchemy==2.5.0
 # Pour faire des migrations.
-Flask-Migrate
+Flask-Migrate==2.7.0
+
+Python-Dotenv
+Psycopg2-Binary==2.8.6

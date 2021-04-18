@@ -1,4 +1,11 @@
-/venv/
+/.idea/
 /.vscode/
+/venv/
+
+.coverage
 __pycache__
+.pytest_cache
 *.pyc
+*.pyo
+*.pyd
+*.log
