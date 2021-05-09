@@ -1,7 +1,8 @@
 from main.extensions import db
+from main.shared.base_model import BaseModel, HasCreatedAt, HasUpdatedAt
 
 
-class User(db.Model):
+class User(BaseModel, HasCreatedAt, HasUpdatedAt):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -9,9 +10,3 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String)
     confirmed_at = db.Column(db.DateTime)
-
-
-# class Job(db.Model):
-#     __tablename__ = 'jobs'
-#
-#     name = db.Column(db.String)

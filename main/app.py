@@ -3,7 +3,9 @@ from flask import Flask, Blueprint
 from main.extensions import db, migrate
 from main.settings import DevSettings
 
-from main.modules import user
+from main.modules import user, product
+
+MODULES = [user, product]
 
 # TODO: remove this.
 main = Blueprint('main', __name__)
@@ -19,9 +21,14 @@ def create_app(settings=DevSettings):
     # Init Migrate.
     migrate.init_app(app, db)
     app.register_blueprint(main)
-    app.register_blueprint(user.api)
-    # app.register_blueprint(product)
+    register_modules(app)
     return app
+
+
+def register_modules(app):
+    for m in MODULES:
+        if hasattr(m, 'api'):
+            app.register_blueprint(m.api)
 
 
 @main.route('/')
