@@ -4,7 +4,7 @@ from main.extensions import db
 
 
 class BaseModel(db.Model):
-    __abstract__ = True
+    __abstract__ = True  # no heritage
 
     def __init__(self, form_data=None, commit=False, *args, **kwargs):
         # Creation.
@@ -18,6 +18,7 @@ class BaseModel(db.Model):
                 form_data.update(kwargs)  # override.
                 kwargs = form_data  # {'email': 'a@a.a', 'password': '123'}
         super().__init__(*args, **kwargs)  # **kwargs => email='a@a.a', password='123'
+        # super() passes args and **kwargs lel main constructeur de Model
         db.session.add(self)
 
         if commit:
@@ -25,7 +26,7 @@ class BaseModel(db.Model):
 
     def update(self, form_data=None, commit=False, **kwargs):
         if form_data:
-            form_data.update(kwargs)
+            form_data.update(kwargs)  # override
             kwargs = form_data
 
         for key, value in kwargs.items():

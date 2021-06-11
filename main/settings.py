@@ -5,7 +5,7 @@ class Settings:
 class DevSettings(Settings):
     DEBUG = True
     # user:password@host:port/db
-    SQLALCHEMY_DATABASE_URI = 'postgresql://root:toor@localhost:5432/roboproto'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://root:toor@localhost:5432/orient'
 
 
 class ProdSettings(Settings):
