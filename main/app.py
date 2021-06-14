@@ -1,13 +1,13 @@
-from flask import Flask, Blueprint
-#from flask_cors import CORS
-
+from flask import Flask, Blueprint, request
 
 from main.extensions import db, migrate
 from main.settings import DevSettings
 
-from main.modules import user, product
 
-MODULES = [user, product]
+from main.modules import user, etudiant
+from main.modules.user.api import blueprint
+
+MODULES = [user, etudiant]
 
 # TODO: remove this.
 main = Blueprint('main', __name__)
@@ -15,7 +15,7 @@ main = Blueprint('main', __name__)
 
 def create_app(settings=DevSettings):
     app = Flask(__name__)
-   # CORS(app)
+
     # Utiliser la configuration (settings).
     app.config.from_object(settings)
     # On initialise les libraries Python.
@@ -37,4 +37,8 @@ def register_modules(app):
 @main.route('/')
 @main.route('/index')
 def index():
+
     return '<h1> Welcome to Orient! </h1>'
+
+
+
