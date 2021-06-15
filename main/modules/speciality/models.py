@@ -1,7 +1,9 @@
 from main.extensions import db
-from main.shared.base_model import BaseModel, HasCreatedAt, HasUpdatedAt
-class Speciality(BaseModel, HasCreatedAt, HasUpdatedAt):
+from main.shared.base_model import BaseModel
 
-    __tablename__ = 'spécialités'
+
+class Speciality(BaseModel):
+
+    __tablename__ = 'specialities'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, unique=True,nullable=False)

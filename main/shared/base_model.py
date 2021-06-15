@@ -48,9 +48,9 @@ class BaseModel(db.Model):
 # user.destroy(True)
 
 
-class HasCreatedAt:
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-class HasUpdatedAt:
-    updated_at = db.Column(db.DateTime)
+# class HasCreatedAt:
+#     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+#
+#
+# class HasUpdatedAt:
+#     updated_at = db.Column(db.DateTime)
