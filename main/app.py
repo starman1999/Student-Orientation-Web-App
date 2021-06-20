@@ -1,11 +1,20 @@
+import random
+
+
 from flask import Flask, Blueprint, request, render_template, redirect, url_for
 
 from main.extensions import db, migrate
 from main.settings import DevSettings
-from main.modules.etudiant.models import Etudiant
+from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
+# tables
+from main.modules.etudiant.models import Moyenne
+from main.modules.speciality.models import Speciality
+from main.modules.etudiant.models import Module
+from main.modules.etudiant.models import Moyenne
 from flask.cli import with_appcontext
 import click
 from main.modules import user, etudiant
+import link
 from main.modules.user.api import blueprint
 
 MODULES = [user, etudiant]
@@ -34,10 +43,15 @@ def create_app(settings=DevSettings):
 def register_shell_context(app):
     def shell_context():
         return {'db': db}
+
     app.shell_context_processor(shell_context)
 
+
 def register_commands(app):
-    app.cli.add_command(populate_etudiants)
+    app.cli.add_command(populate_etudiant)
+    app.cli.add_command(populate_specialities)
+    app.cli.add_command(populate_modules)
+    app.cli.add_command(populate_moyennes)
 
 
 def register_modules(app):
@@ -46,52 +60,55 @@ def register_modules(app):
             app.register_blueprint(m.api)
 
 
-@click.command('populate:etudiants')
+@click.command('populate:etudiant')
 @with_appcontext
-def populate_etudiants():
-    etudiants = [
-        {
-            'name': 'Mounir',
-            'matricule': '171736003461',
-        },
-        {
-            'name': 'Assem',
-            'matricule': '171835027186',
-        },
-        {
-            'name': 'Djouss',
-            'matricule': '1718212121',
-        },
-
-    ]
+def populate_etudiant():
     for etudiant in etudiants:
-        Etudiant(form_data=etudiant, commit=True)
-    click.echo('Foods successfully populated.')
+        Moyenne(form_data=etudiant, commit=True)
+    click.echo('students successfully populated.')
+
+
+@click.command('populate:speciality')
+@with_appcontext
+def populate_specialities():
+    for speciality in specialities:
+        Speciality(form_data=speciality, commit=True)
+    click.echo('specialities successfully populated.')
+
+
+@click.command('populate:modules')
+@with_appcontext
+def populate_modules():
+    for module in modules:
+        Module(form_data=module, commit=True)
+    click.echo('modules successfully populated.')
+
+
+@click.command('populate:moyennes')
+@with_appcontext
+def populate_moyennes():
+
+    for moyenne in moyennes:
+        Moyenne(form_data=moyenne, commit=True)
+    click.echo('Moyennes successfully populated.')
+   # link()
+
 
 @main.route('/')
 @main.route('/index', methods=['GET', 'POST'])
 def index():
-
     return render_template('insertStudent.html')
+
 
 # login page for a user to check his speciality
 @main.route('/', methods=['GET', 'POST'])
 def matricule():
-    if request.method =='POST':
+    if request.method == 'POST':
         matricule = request.form.get('matricule')
-        etudiant = Etudiant.query.filter_by(matricule= matricule).first()
+        etudiant = Moyenne.query.filter_by(matricule=matricule).first()
         if etudiant:
-            return "user exists"
+            return "user exists........Choisir une spécialité : "
         else:
             return "vous n'est pas inscrit a wesmk"
 
-    return redirect(url_for('user.index'))
-
-
-
-
-
-
-
-
-
+    return redirect(url_for('/'))

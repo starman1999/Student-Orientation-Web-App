@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from main.modules.etudiant.models import Etudiant
+from main.modules.etudiant.models import Moyenne
 from main.modules.user.models import User
 from main.extensions import db
 

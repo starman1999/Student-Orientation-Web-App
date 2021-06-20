@@ -1,7 +1,7 @@
 from flask import Blueprint, request, redirect, url_for
 from main.extensions import db
 
-from main.modules.etudiant.models import Etudiant
+from main.modules.etudiant.models import Moyenne
 
 blueprint = Blueprint('etudiant', __name__)
 
