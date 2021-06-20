@@ -2,30 +2,15 @@ import http
 from functools import wraps
 
 from flask import request, url_for, jsonify
-from flask_jwt_extended import current_user
 from marshmallow import INCLUDE
 from webargs import fields
 from webargs.flaskparser import parser
 
-from instance.shared.base_view import BaseView
+from main.shared.base_view import BaseView
 
 DEFAULT_PAGE = 1
 DEFAULT_PER_PAGE = 10
 DEFAULT_MAX_PER_PAGE = 50
-
-
-def allow_access_only_for(user_types):
-    def wrapper(f):
-        @wraps(f)
-        def wrapped(*args, **kwargs):
-            if current_user and current_user.type in user_types:
-                return f(*args, **kwargs)
-            else:
-                return jsonify({}), http.HTTPStatus.UNAUTHORIZED
-
-        return wrapped
-
-    return wrapper
 
 
 def decorate_methods(decorator, methods):
