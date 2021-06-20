@@ -103,19 +103,18 @@ moyennes = [
     {
         'etudiant_id': random.randint(1, 3),
         'module_id': random.randint(1, 17),
-        'moyenne': random.uniform(4, 16),
+        'moyenne': round(random.uniform(4, 16), 2),
     },
     {
         'etudiant_id': random.randint(1, 3),
         'module_id': random.randint(1, 17),
-        'moyenne': random.uniform(4, 16),
+        'moyenne': round(random.uniform(4, 16), 2),
     },
     {
         'etudiant_id': random.randint(1, 3),
         'module_id': random.randint(1, 17),
-        'moyenne': random.uniform(4, 16),
+        'moyenne': round(random.uniform(4, 16), 2),
     },
-
 ]
 
 

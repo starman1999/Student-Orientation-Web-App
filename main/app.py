@@ -1,6 +1,5 @@
 import random
 
-
 from flask import Flask, Blueprint, request, render_template, redirect, url_for
 
 from main.extensions import db, migrate
@@ -52,6 +51,7 @@ def register_commands(app):
     app.cli.add_command(populate_specialities)
     app.cli.add_command(populate_modules)
     app.cli.add_command(populate_moyennes)
+    app.cli.add_command(unpopulate_moyennes)
 
 
 def register_modules(app):
@@ -87,11 +87,21 @@ def populate_modules():
 @click.command('populate:moyennes')
 @with_appcontext
 def populate_moyennes():
-
     for moyenne in moyennes:
         Moyenne(form_data=moyenne, commit=True)
     click.echo('Moyennes successfully populated.')
-   # link()
+
+
+# this fuction is to remove data form table (unpopulate)
+@click.command('unpopulate:moyennes')
+@with_appcontext
+def unpopulate_moyennes():
+
+    Moyenne(form_data= None, commit=True)
+    click.echo('Moyennes successfully populated.')
+
+
+# link()
 
 
 @main.route('/')
