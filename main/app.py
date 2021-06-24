@@ -1,21 +1,17 @@
-import random
-
+import click
 from flask import Flask, Blueprint, request, render_template, redirect, url_for
-
-from main.extensions import db, migrate
+from flask.cli import with_appcontext
 from flask_cors import CORS, cross_origin
-from main.settings import DevSettings
-from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
-# tables
 
-from main.modules.speciality.models import Speciality
+from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
+from main.extensions import db, migrate, cors
+from main.modules import user, etudiant, speciality
 from main.modules.etudiant.models import Module, Etudiant
 from main.modules.etudiant.models import Moyenne
-from flask.cli import with_appcontext
-import click
-from main.modules import user, etudiant, speciality
-import link
-from main.modules.user.api import blueprint
+from main.modules.speciality.models import Speciality
+from main.settings import DevSettings
+
+# tables
 
 MODULES = [user, etudiant, speciality]
 
@@ -26,17 +22,15 @@ main = Blueprint('main', __name__)
 def create_app(settings=DevSettings):
     app = Flask(__name__)
     CORS(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-    app.config['CORS, HEADERS']= 'Content-Type'
+    # CORS(app, resources={r"/api/*": {"origins": "*"}})
+    cors.init_app(app ,resources={r"/api/*": {"origins": "*"}})
+    # app.config['CORS, HEADERS']= 'Content-Type'
 
     # Utilise r la configuration (settings).
     app.config.from_object(settings)
     # On initialise les libraries Python.
     # Init SQLAlchemy.
     db.init_app(app)
-
-
 
     # Init Migrate.
     migrate.init_app(app, db)
@@ -95,8 +89,7 @@ def populate_modules():
 @with_appcontext
 def populate_moyennes():
     for moyenne in moyennes:
-
-       Moyenne(form_data=moyenne, commit=True)
+        Moyenne(form_data=moyenne, commit=True)
 
     click.echo('Moyennes successfully populated.')
 

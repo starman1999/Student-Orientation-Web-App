@@ -101,6 +101,7 @@ class BaseAPI(BaseView):
 
         return form_data, errors
 
+    @cross_origin()
     def index(self):
         query, args = self._filtered_query()
         elements, meta, links = self._get_paginated_elements_by_args(query, args)
@@ -113,6 +114,7 @@ class BaseAPI(BaseView):
             '_links': links
         }), http.HTTPStatus.OK
 
+    @cross_origin()
     def get(self, element_id):
         element = self._query().filter(self.model.id == element_id).first()
         if not element:
@@ -122,6 +124,7 @@ class BaseAPI(BaseView):
 
         return jsonify(serializer.dump(element)), http.HTTPStatus.OK
 
+    @cross_origin()
     def post(self):
         form_data, errors = self._process_request()
         if errors:
@@ -134,6 +137,7 @@ class BaseAPI(BaseView):
 
         return jsonify(serializer.dump(element)), http.HTTPStatus.CREATED
 
+    @cross_origin()
     def patch(self, element_id):
         element = self._query().filter(self.model.id == element_id).first()
         if not element:
@@ -150,6 +154,7 @@ class BaseAPI(BaseView):
 
         return jsonify(serializer.dump(element)), http.HTTPStatus.OK
 
+    @cross_origin()
     def delete(self, element_id):
         element = self._query().filter(self.model.id == element_id).first()
         if not element:
