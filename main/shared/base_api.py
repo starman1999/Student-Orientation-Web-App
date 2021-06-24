@@ -2,6 +2,7 @@ import http
 from functools import wraps
 
 from flask import request, url_for, jsonify
+from flask_cors import cross_origin
 from marshmallow import INCLUDE
 from webargs import fields
 from webargs.flaskparser import parser
@@ -92,6 +93,7 @@ class BaseAPI(BaseView):
 
         return elements, meta, links
 
+    @cross_origin()
     def _process_request(self, partial=False):
         form_data = (request.json or (request.form.to_dict() if request.form else None)) or {}
         serializer = self.schema(unknown=INCLUDE)

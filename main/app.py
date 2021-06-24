@@ -3,20 +3,21 @@ import random
 from flask import Flask, Blueprint, request, render_template, redirect, url_for
 
 from main.extensions import db, migrate
+from flask_cors import CORS, cross_origin
 from main.settings import DevSettings
 from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
 # tables
-from main.modules.etudiant.models import Moyenne
+
 from main.modules.speciality.models import Speciality
-from main.modules.etudiant.models import Module
+from main.modules.etudiant.models import Module, Etudiant
 from main.modules.etudiant.models import Moyenne
 from flask.cli import with_appcontext
 import click
-from main.modules import user, etudiant
+from main.modules import user, etudiant, speciality
 import link
 from main.modules.user.api import blueprint
 
-MODULES = [user, etudiant]
+MODULES = [user, etudiant, speciality]
 
 # TODO: remove this.
 main = Blueprint('main', __name__)
@@ -24,12 +25,19 @@ main = Blueprint('main', __name__)
 
 def create_app(settings=DevSettings):
     app = Flask(__name__)
+    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    # Utiliser la configuration (settings).
+    app.config['CORS, HEADERS']= 'Content-Type'
+
+    # Utilise r la configuration (settings).
     app.config.from_object(settings)
     # On initialise les libraries Python.
     # Init SQLAlchemy.
     db.init_app(app)
+
+
+
     # Init Migrate.
     migrate.init_app(app, db)
     app.register_blueprint(main)
@@ -51,7 +59,6 @@ def register_commands(app):
     app.cli.add_command(populate_specialities)
     app.cli.add_command(populate_modules)
     app.cli.add_command(populate_moyennes)
-    app.cli.add_command(unpopulate_moyennes)
 
 
 def register_modules(app):
@@ -88,34 +95,25 @@ def populate_modules():
 @with_appcontext
 def populate_moyennes():
     for moyenne in moyennes:
-        Moyenne(form_data=moyenne, commit=True)
+
+       Moyenne(form_data=moyenne, commit=True)
+
     click.echo('Moyennes successfully populated.')
-
-
-# this fuction is to remove data form table (unpopulate)
-@click.command('unpopulate:moyennes')
-@with_appcontext
-def unpopulate_moyennes():
-
-    Moyenne(form_data= None, commit=True)
-    click.echo('Moyennes successfully populated.')
-
-
-# link()
 
 
 @main.route('/')
 @main.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('insertStudent.html')
+    return render_template("usercheck.html")
 
 
 # login page for a user to check his speciality
 @main.route('/', methods=['GET', 'POST'])
+@cross_origin()
 def matricule():
     if request.method == 'POST':
         matricule = request.form.get('matricule')
-        etudiant = Moyenne.query.filter_by(matricule=matricule).first()
+        etudiant = Etudiant.query.filter_by(matricule=matricule).first()
         if etudiant:
             return "user exists........Choisir une spécialité : "
         else:

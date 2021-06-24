@@ -100,21 +100,110 @@ modules = [
 ]
 
 moyennes = [
+
     {
-        'etudiant_id': random.randint(1, 3),
-        'module_id': random.randint(1, 17),
+
+        'etudiant_id': 1,
+        'module_id': 1,
         'moyenne': round(random.uniform(4, 16), 2),
     },
     {
-        'etudiant_id': random.randint(1, 3),
-        'module_id': random.randint(1, 17),
+
+        'etudiant_id': 1,
+        'module_id': 2,
         'moyenne': round(random.uniform(4, 16), 2),
     },
     {
-        'etudiant_id': random.randint(1, 3),
-        'module_id': random.randint(1, 17),
+
+        'etudiant_id': 1,
+        'module_id': 3,
         'moyenne': round(random.uniform(4, 16), 2),
     },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 4,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 5,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 6,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 7,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 8,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 9,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 10,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 11,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 12,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 13,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 14,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 15,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 16,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+    {
+
+        'etudiant_id': 1,
+        'module_id': 17,
+        'moyenne': round(random.uniform(4, 16), 2),
+    },
+
 ]
 
 

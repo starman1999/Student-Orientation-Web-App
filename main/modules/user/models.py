@@ -6,7 +6,7 @@ class User(BaseModel):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    matricule = db.Column(db.Integer, primary_key=True)
+    matricule = db.Column(db.String, primary_key=True)
 
 
 

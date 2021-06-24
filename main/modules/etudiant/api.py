@@ -1,25 +1,22 @@
 from flask import Blueprint, request, redirect, url_for
+from flask_cors import cross_origin
+
 from main.extensions import db
 
-from main.modules.etudiant.models import Moyenne
+from main.modules.etudiant.models import Etudiant
+from main.shared.base_api import BaseAPI
+from main.modules.etudiant.schemas import StudentSchema
 
-blueprint = Blueprint('etudiant', __name__)
+
+blueprint = Blueprint('etudiant', __name__, url_prefix='/api')
 
 
-# @blueprint.route('/', methods=['POST'])
-# def index():
-#     if request.form == ['POST']:
-#         name = request.form['name']
-#         matricule = request.form['matricule']
-#
-#         my_data = Etudiant(name, matricule)
-#         db.session.add(my_data)
-#         db.session.commit()
-#
-#         return redirect(url_for('etudiants'))
-#
-#     # etudiants = Etudiant.query.all()
-#     # return jsonify([{
-#     #     'id': etudiant.id,
-#     #     'name': etudiant.name
-#     # } for etudiant in etudiants])
+class StudentApi(BaseAPI):
+
+    route_base = "students"
+
+    model = Etudiant
+    schema = StudentSchema
+
+
+StudentApi.register(blueprint)
