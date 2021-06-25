@@ -13,7 +13,7 @@ blueprint = Blueprint('etudiant', __name__, url_prefix='/api')
 
 class StudentApi(BaseAPI):
 
-    route_base = "students/"
+    route_base = "students"
 
     model = Etudiant
     schema = StudentSchema

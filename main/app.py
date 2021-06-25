@@ -1,7 +1,8 @@
 import click
-from flask import Flask, Blueprint, request, render_template, redirect, url_for
+from flask import Flask, Blueprint, request, render_template, redirect, url_for, Response, jsonify
 from flask.cli import with_appcontext
 from flask_cors import CORS, cross_origin
+from webargs.core import Request
 
 from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
 from main.extensions import db, migrate, cors
@@ -10,6 +11,7 @@ from main.modules.etudiant.models import Module, Etudiant
 from main.modules.etudiant.models import Moyenne
 from main.modules.speciality.models import Speciality
 from main.settings import DevSettings
+from flask import json
 
 # tables
 
@@ -23,7 +25,7 @@ def create_app(settings=DevSettings):
     app = Flask(__name__)
     CORS(app)
     # CORS(app, resources={r"/api/*": {"origins": "*"}})
-    cors.init_app(app ,resources={r"/api/*": {"origins": "*"}})
+    cors.init_app(app, resources={r"/api/*": {"origins": "http://localhost:4200/"}})
     # app.config['CORS, HEADERS']= 'Content-Type'
 
     # Utilise r la configuration (settings).
@@ -102,14 +104,10 @@ def index():
 
 # login page for a user to check his speciality
 @main.route('/', methods=['GET', 'POST'])
-@cross_origin()
 def matricule():
     if request.method == 'POST':
         matricule = request.form.get('matricule')
-        etudiant = Etudiant.query.filter_by(matricule=matricule).first()
-        if etudiant:
-            return "user exists........Choisir une spécialité : "
-        else:
-            return "vous n'est pas inscrit a wesmk"
+
+        return jsonify(mat=matricule)
 
     return redirect(url_for('/'))

@@ -1,3 +1,4 @@
+from flask import request
 from marshmallow import fields, pre_load
 
 from main.extensions import ma
@@ -10,7 +11,8 @@ class StudentSchema(ma.SQLAlchemySchema):
 
     name = fields.Str()
     matricule = fields.Str()
-    choix = fields.Str()
+
+
 
 
 
