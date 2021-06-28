@@ -4,12 +4,16 @@ from main.extensions import ma
 from main.modules.user.models import User
 
 
+
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:
         model = User
         load_only = ('password',)
 
     matricule = fields.Str()
+
+
+
 
 
     @pre_load

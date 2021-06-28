@@ -5,13 +5,16 @@ from flask_cors import CORS, cross_origin
 from webargs.core import Request
 
 from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
-from main.extensions import db, migrate, cors
+from main.extensions import db, migrate, cors, ma
 from main.modules import user, etudiant, speciality
 from main.modules.etudiant.models import Module, Etudiant
 from main.modules.etudiant.models import Moyenne
 from main.modules.speciality.models import Speciality
 from main.settings import DevSettings
-from flask import json
+from main.modules.etudiant.schemas import MoyenneSchema
+from flask import jsonify
+from pprint import pprint
+
 
 # tables
 
@@ -105,9 +108,17 @@ def index():
 # login page for a user to check his speciality
 @main.route('/', methods=['GET', 'POST'])
 def matricule():
-    if request.method == 'POST':
-        matricule = request.form.get('matricule')
 
-        return jsonify(mat=matricule)
+    if request.method == 'POST':
+        matricule = request.form.get('matricule') # get matricule from Form
+        student = Etudiant.query.filter_by(matricule=matricule).first()
+
+        if student:  # student exists
+            moy = Moyenne.query.filter_by(etudiant_id=student.id).all()  # get 'moyennes' of this student
+            moyenneschema = MoyenneSchema(many=True)
+            output = moyenneschema.dump(moy)  # serialize data
+            return jsonify({'moy01': output})
+        else:
+            return 'false'
 
     return redirect(url_for('/'))
