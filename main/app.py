@@ -28,6 +28,7 @@ def create_app(settings=DevSettings):
     app = Flask(__name__)
     CORS(app)
     # CORS(app, resources={r"/api/*": {"origins": "*"}})
+
     cors.init_app(app, resources={r"/api/*": {"origins": "http://localhost:4200/"}})
     # app.config['CORS, HEADERS']= 'Content-Type'
 
