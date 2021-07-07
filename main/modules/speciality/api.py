@@ -16,5 +16,4 @@ class SpecialityAPI(BaseAPI):
     schema = SpecialitySchema
 
 
-
 SpecialityAPI.register(blueprint)

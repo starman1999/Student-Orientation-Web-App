@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('module_id', sa.Integer(), nullable=False),
     sa.Column('moyenne', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['etudiant_id'], ['etudiants.id'], ),
-    sa.ForeignKeyConstraint(['module_id'], ['modules.id'], ),
+    sa.ForeignKeyConstraint(['module_id'], ['module.id'], ),
     sa.PrimaryKeyConstraint('etudiant_id', 'module_id')
     )
     # ### end Alembic commands ###

@@ -6,19 +6,19 @@ from webargs.core import Request
 
 from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
 from main.extensions import db, migrate, cors, ma
-from main.modules import user, etudiant, speciality
+from main.modules import user, etudiant, speciality, moyenne, module
+from main.modules.etudiant.Schemas import MoyenneSchema
 from main.modules.etudiant.models import Module, Etudiant
 from main.modules.etudiant.models import Moyenne
 from main.modules.speciality.models import Speciality
 from main.settings import DevSettings
-from main.modules.etudiant.schemas import MoyenneSchema
 from flask import jsonify
 from pprint import pprint
 
 
 # tables
 
-MODULES = [user, etudiant, speciality]
+MODULES = [user, etudiant, speciality, moyenne, module]
 
 # TODO: remove this.
 main = Blueprint('main', __name__)
@@ -26,10 +26,10 @@ main = Blueprint('main', __name__)
 
 def create_app(settings=DevSettings):
     app = Flask(__name__)
-    CORS(app)
+
     # CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    cors.init_app(app, resources={r"/api/*": {"origins": "http://localhost:4200/"}})
+    cors.init_app(app)
     # app.config['CORS, HEADERS']= 'Content-Type'
 
     # Utilise r la configuration (settings).
@@ -83,12 +83,12 @@ def populate_specialities():
     click.echo('specialities successfully populated.')
 
 
-@click.command('populate:modules')
+@click.command('populate:module')
 @with_appcontext
 def populate_modules():
     for module in modules:
         Module(form_data=module, commit=True)
-    click.echo('modules successfully populated.')
+    click.echo('module successfully populated.')
 
 
 @click.command('populate:moyennes')

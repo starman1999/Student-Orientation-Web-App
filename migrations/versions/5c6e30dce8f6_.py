@@ -29,7 +29,7 @@ def downgrade():
     sa.Column('module_id', sa.INTEGER(), autoincrement=False, nullable=False),
     sa.Column('moyenne', postgresql.DOUBLE_PRECISION(precision=53), autoincrement=False, nullable=True),
     sa.ForeignKeyConstraint(['etudiant_id'], ['etudiants.id'], name='moyenne_etudiant_id_fkey'),
-    sa.ForeignKeyConstraint(['module_id'], ['modules.id'], name='moyenne_module_id_fkey'),
+    sa.ForeignKeyConstraint(['module_id'], ['module.id'], name='moyenne_module_id_fkey'),
     sa.PrimaryKeyConstraint('etudiant_id', 'module_id', name='moyenne_pkey')
     )
     # ### end Alembic commands ###

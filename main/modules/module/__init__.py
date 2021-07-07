@@ -1,0 +1,1 @@
+from main.modules.module.api import blueprint as api
