@@ -12,7 +12,7 @@ from webargs.flaskparser import parser
 from main.shared.base_view import BaseView
 
 DEFAULT_PAGE = 1
-DEFAULT_PER_PAGE = 10
+DEFAULT_PER_PAGE = 50
 DEFAULT_MAX_PER_PAGE = 50
 
 
