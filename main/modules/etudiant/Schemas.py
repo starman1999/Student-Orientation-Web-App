@@ -31,4 +31,4 @@ class StudentSchema(ma.SQLAlchemySchema):
     id = fields.Int()
     name = fields.Str()
     matricule = fields.Str()
-    modules = ma.Nested(MoyenneSchema, many=True)
+    modules = ma.Nested('MoyenneSchema', many=True)

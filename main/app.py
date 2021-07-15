@@ -1,11 +1,15 @@
 import click
-from flask import Flask, Blueprint, request, render_template, redirect, url_for, Response, jsonify
+import numpy as np
+from flask import Flask, Blueprint, request, render_template, redirect, url_for, json
 from flask.cli import with_appcontext
-from flask_cors import CORS, cross_origin
-from webargs.core import Request
+from flask_marshmallow import fields
+from sqlalchemy import select
+from sqlalchemy.orm import load_only, defer, undefer, session
+
+from main import Model
 
 from main.data import etudiants, specialities, modules, moyennes  # data to insert in db
-from main.extensions import db, migrate, cors, ma
+from main.extensions import db, migrate, cors
 from main.modules import user, etudiant, speciality, moyenne, module
 from main.modules.etudiant.Schemas import MoyenneSchema
 from main.modules.etudiant.models import Module, Etudiant
@@ -13,8 +17,6 @@ from main.modules.etudiant.models import Moyenne
 from main.modules.speciality.models import Speciality
 from main.settings import DevSettings
 from flask import jsonify
-from pprint import pprint
-
 
 # tables
 
@@ -113,12 +115,32 @@ def matricule():
     if request.method == 'POST':
         matricule = request.form.get('matricule') # get matricule from Form
         student = Etudiant.query.filter_by(matricule=matricule).first()
-
+        result = []
         if student:  # student exists
-            moy = Moyenne.query.filter_by(etudiant_id=student.id).all()  # get 'moyennes' of this student
+
+
+
+            #get only the attribute "moyennes"
+            moy = Moyenne.query.with_entities(Moyenne.moyenne).filter_by(etudiant_id=student.id).all()
+
+
+
+            # moy = moy.options(defer('etudiant_id'), defer('module_id'),undefer('moyenne'))
+
+            #print(moy[0][0])
+            for e in moy:
+                result.append(e[0])
+            print(result)  # moyennes filtered t3 one student brk
+
             moyenneschema = MoyenneSchema(many=True)
-            output = moyenneschema.dump(moy)  # serialize data
-            return jsonify({'moy01': output})
+            output = moyenneschema.dump(moy) # serialize data
+
+            y = Model.classifier.predict_proba([result])
+            print("les proba kaml", y)
+            lists = y.tolist()
+            json_str = json.dumps(lists)
+
+            return  json_str
         else:
             return 'false'
 

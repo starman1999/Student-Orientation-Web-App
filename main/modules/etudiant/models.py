@@ -17,8 +17,8 @@ class Moyenne(BaseModel):
     module_id = db.Column(db.Integer, db.ForeignKey(
         'modules.id'), primary_key=True)
     moyenne = db.Column(db.Float)
-    etudiant = db.relationship("Etudiant", back_populates="modules")
-    module = db.relationship("Module", back_populates="etudiants")
+    etudiant = db.relationship("Etudiant", backref=db.backref("modules", cascade="all, delete-orphan"))
+    module = db.relationship("Module", backref=db.backref("modules", cascade="all, delete-orphan"))
 
 
 class Etudiant(BaseModel):
@@ -27,7 +27,7 @@ class Etudiant(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     matricule = db.Column(db.String, unique=True, nullable=False)
-    modules = db.relationship("Moyenne", back_populates="etudiant")
+    #modules = db.relationship("Moyenne", back_populates="etudiant")
 
     def __init__(self, form_data=None, commit=False, *args, **kwargs):
         if form_data:
