@@ -113,13 +113,12 @@ def index():
 def matricule():
 
     if request.method == 'POST':
+
         matricule = request.form.get('matricule') # get matricule from Form
+
         student = Etudiant.query.filter_by(matricule=matricule).first()
         result = []
         if student:  # student exists
-
-
-
             #get only the attribute "moyennes"
             moy = Moyenne.query.with_entities(Moyenne.moyenne).filter_by(etudiant_id=student.id).all()
 
@@ -132,8 +131,8 @@ def matricule():
                 result.append(e[0])
             print(result)  # moyennes filtered t3 one student brk
 
-            moyenneschema = MoyenneSchema(many=True)
-            output = moyenneschema.dump(moy) # serialize data
+           # moyenneschema = MoyenneSchema(many=True)
+           # output = moyenneschema.dump(moy) # serialize data
 
             y = Model.classifier.predict_proba([result])
             print("les proba kaml", y)
